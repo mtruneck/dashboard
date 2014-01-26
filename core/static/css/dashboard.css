@@ -1,0 +1,246 @@
+
+/*  STRUCTURE  */
+*    { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+body {
+    -webkit-font-smoothing: antialiased;
+    margin: 0px;
+}
+
+.header {
+	padding: 5px 10px 5px 10px;
+	margin: 0px;
+	z-index: 10000;
+}
+
+.header .page_title {
+	float: left;
+	padding: 2px;
+	width: 130px;
+}
+
+.header .settings div{
+	float: right;
+	padding: 20px 10px 10px 10px;
+}
+
+.header .settings {
+	display: none;
+	clear: both;
+}
+
+.header .right_containter {
+	float: right;
+}
+.header #settings_toggler {
+	text-align: center;
+	z-index: 0;
+	cursor: pointer;
+	height: 25px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* Style of Checkbox with label */
+label.icon {
+	vertical-align: middle;
+	display: inline-block;
+	width: 22px; height: 22px; }
+input#iframe-cover-switch
+                {display: none; }
+input#iframe-cover-switch  + label 
+                {background-position: -154px 0px ;}
+input#iframe-cover-switch:checked + label 
+                {background-position: -132px 0px ;}
+input#iframe-cover-switch:hover  + label 
+                {background-position: -154px -22px ;}
+input#iframe-cover-switch:checked:hover + label 
+                {background-position: -132px -22px ;}
+
+
+/* The whole gridster element */
+.gridster {
+    width: 100%;
+    height: 1500px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+
+.gridster .gs-w {
+    cursor: pointer;
+    //-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.gridster .preview-holder {
+    border: none!important;
+    list-style: none;
+    border-radius: 0!important;
+}
+
+
+.gridster .player {
+    -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+
+
+
+/* Widget element */
+.gridster .gs-w {
+    padding: 1px;
+    padding-top: 22px;
+    list-style: none;
+}
+
+/* For resize-handles to be on top of .iframe_cover */
+.gs-resize-handle {z-index: 10;}
+
+/* Widget's titlebar elements */
+.widget .title {
+	width: 100%;
+	height: 20px;
+	text-align: center;\
+	padding-right: 2px;
+	position: absolute;
+	float: right;
+	z-index: 1;
+	top: 3px;
+}
+
+.urler_form, .titlebar_item {
+	position: absolute;
+	z-index: 2;
+}
+
+.remover, .reloader, .scroll_lock, .minimizer, .urler { width: 22px; height: 22px; }
+.remover     { right: 2px;  top: 0px; }
+.minimizer   { right: 26px; top: 0px; }
+.reloader    { right: 50px; top: 0px; }
+.scroll_lock { right: 74px; top: 0px; }
+.urler       { left:  2px;  top: 0px; }
+.urler_form  { left:  5px;  top: 26px;}
+
+.remover        {background-position: -110px 0px ;}
+.remover:hover  {background-position: -110px -22px ;}
+.minimizer.min  {background-position: -88px 0px ;}
+.minimizer.min:hover
+                {background-position: -88px -22px ;}
+.minimizer.max  {background-position: -66px 0px ;}
+.minimizer.max:hover
+                {background-position: -66px -22px ;}
+.reloader       {background-position: -44px 0px ;}
+.reloader:hover {background-position: -44px -22px ;}
+.scroll_lock    {background-position: -22px 0px ;}
+.scroll_lock:hover
+                {background-position: -22px -22px ;}
+.urler          {background-position: 0px 0px ;}
+.urler:hover    {background-position: 0px -22px ;}
+
+.urler_form {
+	left: 5px; top: 26px;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 5px;
+	display: none;
+}
+
+.widget_content { 
+	width: 100%; height: 100%;
+}
+
+.widget_content iframe { 
+	width: 100%; height: 100%;
+	border: 0px;
+}
+
+.iframe_cover {
+	background-color: white;
+	width: 100%; height: 100%;
+	position: absolute;
+	opacity: 0.0001;
+	z-index: 5;
+}
+
+/* Remove closing button from the dialog */
+.ui-dialog-titlebar-close {display: none; }
+
+/* Style of the "new dashboard" dialog */
+#dialog_new_dashboard {
+	overflow: hidden;
+	text-align: center;
+ 	margin: 0px;
+ 	padding: 10px;
+}
+
+/* Common classes */
+.hand {
+    cursor: pointer;
+}
+.bold {
+	font-weight: bold;
+}
+
+/* font-sizes */
+body             { font-size: normal; }
+.header .page_title
+                 { font-size: large;}
+.header #settings_toggler 
+                 { font-size: large;}
+.ui-dialog-title { font-size: medium;}
+.widget .title   { font-size: small;}
+
+
+
+/* Other font customizations */
+.widget .title { 
+        text-transform: uppercase;
+	border-bottom: 1px solid black;
+	font-weight: bold;
+}
+
+
+
+/*  ICONS AND IMAGES */
+.icon, .titlebar_item {background-image: url(grey_smooth_all.png)}
+
+
+
+/* COLORS and backgrounds */
+body {
+	color: black;
+	font-family: 'Verdana', 'Helvetica Neue', Arial, sans-serif;
+	background-color: white;
+	background-image: url(paper_bg.jpg);
+}
+.header {
+	border-bottom: 1px solid black;
+	/* background-image: url(paper_bg.jpg); */
+	background-color: #d1d1d1;
+}
+.header #settings_toggler:hover {
+	background-color: #eee;
+}
+.grid {
+	//border: 1px solid #dddddd;
+	border: 1px solid white;
+	width: 206px;
+	height: 106px;
+	float: left;
+	opacity: 0.2;
+}
+.gridster .preview-holder {
+	background: rgba(230,230,230,.6);
+}
+.widget {
+	background: #d1d1d1;
+	border: 1px solid black;
+}
+.widget_content iframe { 
+	background-color: white;
+}
+.urler_form {
+	background-color: white;
+}
