@@ -12,7 +12,7 @@ Just a few steps:
 
     # Register here: https://www.openshift.com/app/account/new
     # Install rhc tool (e.g. on Fedora yum install rubygem-rhc )
-    $ rhc app-create newdash python-2.7
+    $ rhc app-create dashboard python-2.7
     $ cd newdash/
 
     $ cp -r DASHBOARD_CLONED_GIT/* wsgi/
@@ -23,3 +23,7 @@ Just a few steps:
     $ git add wsgi/*
     $ git commit -am "Initial Dashboard commit"
     $ git push
+
+Then your dashboard will be ready as dashboard-yournamespace.rhcloud.com
+
+
