@@ -1,6 +1,11 @@
 # Django settings for dashboard project.
 import os
 
+# a setting to determine whether we are running on OpenShift
+ON_OPENSHIFT = False
+if os.environ.has_key('OPENSHIFT_REPO_DIR'):
+    ON_OPENSHIFT = True
+
 APP_PATH=os.path.join(os.path.dirname(__file__), "..")
 
 DEBUG = True
@@ -12,10 +17,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+if ON_OPENSHIFT:
+    DB_FILE = os.path.join(os.environ['OPENSHIFT_DATA_DIR'],'dashboard.db')
+else:
+    DB_FILE = os.path.join(APP_PATH,'dashboard.db')
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(APP_PATH,'dashboard.db'), # Or path to database file if using sqlite3.
+        'NAME': DB_FILE, # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
