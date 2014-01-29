@@ -18,6 +18,7 @@ Just a few steps:
     $ cp -r DASHBOARD_CLONED_GIT/* wsgi/
     $ cp wsgi/openshift/application wsgi/
     $ cp wsgi/openshift/setup.py .
+    $ cp wsgi/openshift/pre_start .openshift/action_hooks/
     $ cp -r wsgi/core/static/* wsgi/static/
 
     $ git add wsgi/*

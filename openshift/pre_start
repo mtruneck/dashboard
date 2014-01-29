@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ ! -e ${OPENSHIFT_DATA_DIR}/dashboard.db ]; then
+    echo "No local database found. Copying the default one..."
+    cp ${OPENSHIFT_REPO_DIR}/wsgi/dashboard.db ${OPENSHIFT_DATA_DIR}
+fi
+
