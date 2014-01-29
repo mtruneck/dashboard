@@ -13,7 +13,7 @@ Just a few steps:
     # Register here: https://www.openshift.com/app/account/new
     # Install rhc tool (e.g. on Fedora yum install rubygem-rhc )
     $ rhc app-create dashboard python-2.7
-    $ cd newdash/
+    $ cd dashboard/
 
     $ cp -r DASHBOARD_CLONED_GIT/* wsgi/
     $ cp wsgi/openshift/application wsgi/
