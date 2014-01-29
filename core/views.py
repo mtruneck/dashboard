@@ -11,8 +11,12 @@ def dashboard(request, dashboard_name):
         dashboard = Dashboard.objects.get(name=dashboard_name)
         exists = True
     except Dashboard.DoesNotExist:
-        dashboard = Dashboard.objects.get(name='default')
         exists = False
+        try:
+            dashboard = Dashboard.objects.get(name='default')
+        except Dashboard.DoesNotExist:
+            dashboard = Dashboard.objects.create(name='default', serialization='[]')
+        dashboard = Dashboard.objects.get(name='default')
     save_url = request.path.rstrip('/') + "/save/"
     return render(request, 'dashboard.html', {'name': dashboard_name, 
                                               'serialization': dashboard.serialization,
