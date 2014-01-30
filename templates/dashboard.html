@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>QA Dashboard</title>
+    <title>Dashboard</title>
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/gridster/dist/jquery.gridster.min.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery-ui.css">
@@ -52,7 +52,7 @@
 {% if not exists %}
 <div id="dialog_new_dashboard" title="The dashboard &quot;{{ name }}&quot; doesn't exist!">
 <br>
-<button id="btn_close_dialog" style="width: 420px; height: 180px;" type="button"><b>Yes, please create the dashboard</b></button>
+<button id="btn_close_dialog" style="width: 420px; height: 100px;" type="button"><b>Yes, please create the dashboard</b></button>
 <br><br>
 ...or you can change the name in the page URL.
 </div>
@@ -305,7 +305,7 @@ $(function(){
 
 {% if not exists %}
 	$( "#dialog_new_dashboard" ).dialog({
-		height: 315,
+		height: 235,
 		width: 500,
 		closeOnEscape: false,
 		modal: true,

@@ -4,6 +4,29 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
     <title>QA Dashboard</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <style>
+#button {
+	width: 320px;
+	display: inline-block;
+	margin: 0px 0px 20px 0px;
+	padding: 10px;
+	border: 1px outset black;
+	background-color: grey;
+}
+#dashboard-name {
+	width: 290px;
+	margin: 5px 0px;
+	padding: 0px;
+}
+#submit {
+	width: 30px;
+	margin: 5px 0px;
+	padding: 0px;
+}
+h2 {
+	margin: 60px;
+}
+    </style>
 </head>
 <body>
 
@@ -17,13 +40,25 @@
 </div><!-- .header_container -->
 
 <div style="text-align: center;">
-    <br>
-    <br>
     <h2>Welcome to the Dashboard!</h2>
-    <br>
-    <br>
-    <a href="{{ random_id }}">Create new random dashboard</a>
+    <span id="button" class="hand" onclick="random_dashboard()">New Random Dashboard</span><br>
+    or create/open a Dashboard with the name:
+    <form action="#" onsubmit="named_dashboard();return false;"> 
+        <input type="text" id="dashboard-name"> 
+        <button type="submit" id="submit" class="hand">OK</button>
+    </form>
+
 </div>
+<script type="text/javascript" charset="utf-8">
+	function named_dashboard() {
+		var dashboard_name = document.getElementById("dashboard-name").value;
+		dashboard_name.length > 0 ? window.location = dashboard_name : alert("Please enter a name");
+	}
+
+	function random_dashboard() {
+		window.location = "{{ random_id }}";
+	}
+</script>
 
 </body>
 </html>
