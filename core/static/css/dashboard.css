@@ -19,6 +19,15 @@ body {
 	width: 130px;
 }
 
+.saved {
+	color: green;
+	font-weight: bold;
+}
+.saved,
+.saving {
+	display: none;
+}
+
 .header .settings div{
 	float: right;
 	padding: 20px 10px 10px 10px;

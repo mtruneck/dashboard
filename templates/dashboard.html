@@ -22,6 +22,8 @@
         <label for="iframe-cover-switch" class="icon hand"></label>
         &nbsp; &nbsp; | &nbsp; &nbsp; 
         <input type="button" id="btn_save" value="Save the dashboard"></input>
+        <span class="saving">Saving...</span>
+        <span class="saved">Saved</span>
         &nbsp; &nbsp; | &nbsp; &nbsp; 
         <!-- <input type="button" value="Show serialized settings" id="btn_serialize"></input>
         &nbsp; &nbsp; | &nbsp; &nbsp; -->
@@ -234,11 +236,15 @@ $(function(){
 	}
 
 	function save_positions() {
-		var serialized_array = gridster.serialize();
-		serialized_string = "serialization = "+JSON.stringify(serialized_array)+";";
-		$.get("{{ save_url }}", {serialization: serialized_string}, function(data){
-			alert('Dashboard saved!');
-		})
+	    $('.saving').fadeIn( function(){
+			var serialized_array = gridster.serialize();
+			serialized_string = "serialization = "+JSON.stringify(serialized_array)+";";
+			$.get("{{ save_url }}", {serialization: serialized_string}, function(data){
+				$('.saving').fadeOut(function(){
+					$('.saved').fadeIn().delay(2000).fadeOut();
+				});
+			})
+		});
 	}
 	$('#btn_save').click( save_positions );
 
