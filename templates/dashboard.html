@@ -60,43 +60,41 @@
 </div>
 {% endif %}
 
+<!-- Underscore.js style template for a widget -->
+<script type="text/x-underscore" id="widget_template">
+
+	<li class="widget" minimized="<%= minimized %>" 
+	                   maximized-sizey="<%= maximized_sizey %>" 
+	                   title="<%= title %>">
+		<div class="title"><%= title %></div>
+
+		<div class="titlebar_item remover"     title="Close this widget"></div>
+		<div class="titlebar_item scroll_lock" title="Show/hide scrollbars"></div>
+		<div class="titlebar_item reloader"    title="Reload the content"></div>
+		<div class="titlebar_item minimizer <%= minimizer_class %>" 
+											title="<%= minimizer_title %>"></div>
+		<div class="titlebar_item urler"       title="Show/change the URL of this widget"></div>
+		<div class=" urler_form">
+			<input class="urlerinput"></input>
+			<input class="urlerbutton" type="button" value="Change"></input>
+		</div>
+
+		<div class="iframe_cover"></div>
+		<div class="widget_content">
+			<iframe scrolling="<%= scrolling %>" src="<%= content %>"></iframe>
+		</div>
+	</li>
+
+</script>
+
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/gridster/dist/jquery.gridster.modified.js" charset="utf-8"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/dashboard.js"></script>
 <script type="text/javascript">
 
-var gridster;
-
-demo_serialization = [];
-
-{{  serialization|safe }}
-
-serialization = typeof serialization !== 'undefined' ? serialization : demo_serialization;
-
 $(function(){
-
-	$gridster = $(".gridster > ul");
-
-	// Gridster element initialization
-	gridster = $gridster.gridster({
-		widget_margins: [3, 3],
-		widget_base_dimensions: [200, 100],
-		min_cols: 6,
-		resize: { enabled: true },
-		serialize_params: function($w, wgd) { 
-			return { 
-				content: $($w).find('iframe').attr('src'),
-				scrolling: $($w).find('iframe').attr('scrolling'),
-				title: $($w).attr('title'), 
-				minimized: $($w).attr('minimized'), 
-				maximized_sizey: $($w).attr('maximized-sizey'),
-				col: wgd.col, 
-				row: wgd.row, 
-				size_x: wgd.size_x, 
-				size_y: wgd.size_y 
-			};
-		}
-	}).data('gridster');
 
 	// Set behaviour of iframe_cover according to the settings
 	function update_iframe_cover(){
@@ -107,137 +105,24 @@ $(function(){
 		}
 	}
 
-	// Minimize widget to sizey=1
-	function minimize(e){
-	    $this = $(this);
-	    $widget = $this.parent()
-		var current_sizex = parseInt($this.parent().attr('data-sizex'));
-		var current_sizey = parseInt($this.parent().attr('data-sizey'));
-		var maximized_sizey = parseInt($this.parent().attr('maximized-sizey'));
+	demo_serialization = [];
 
-		if ($widget.attr('minimized') == "false") {
-			$widget.attr('maximized-sizey', current_sizey)
-			gridster.resize_widget( $widget, current_sizex, 1, false );
-			$this.removeClass("min").addClass("max");
-			$this.attr('title', 'Restore height');
-			$widget.attr('minimized', 'true');
-		} else {
-			gridster.resize_widget( $widget, current_sizex, maximized_sizey, false );
-			$this.removeClass("max").addClass("min");
-			$this.attr('title', 'Minimize up to hight 1');
-			$widget.attr('minimized', 'false');
-		}
-	}
+	{{  serialization|safe }}
 
-	$gridster.on( 'click', '.minimizer', minimize );
+	serialization = typeof serialization !== 'undefined' ? serialization : demo_serialization;
 
-	// Switch scrollbars on/off
-	function scroll_lock(e) {
-		$iframe = $(this).parent().find("iframe");
-		scrolling = $iframe.attr("scrolling");
-		scrolling = scrolling=="yes" ? "no" : "yes";
-		$iframe.attr("scrolling", scrolling);
-	}
+	dashboard = new Dashboard(".gridster > ul");
 
-	$gridster.on( 'click', '.scroll_lock', scroll_lock );
+	dashboard.gridster.remove_all_widgets();
+	$.each(serialization, function(index,item) {
+		dashboard.add(item);
+	});
+	update_iframe_cover();
 
-	// URLer
-	function change_url(e){
-		$widget = $(this).parent().parent();
-		$iframe = $widget.find("iframe");
-		$urler_form = $widget.find(".urler_form");
-		$urler_input = $widget.find(".urlerinput");
-
-		$iframe.attr('src', $urler_input.val());
-		$urler_form.toggle();
-	}
-
-	$gridster.on( 'click', '.urlerbutton', change_url );
-
-	// Show/hide form with URL
-	function toggle_urler(e){
-		$widget = $(this).parent();
-		$urler_input = $widget.find(".urlerinput");
-		$iframe = $widget.find("iframe");
-		$urler_form = $widget.find(".urler_form");
-
-		$urler_input.val( $iframe.attr("src") );
-		$urler_form.toggle();
-	}
-
-	$gridster.on( 'click', '.urler', toggle_urler );
-
-	function reload_iframe(e) {
-		$widget = $(this).parent();
-		$iframe = $widget.find("iframe");
-
-		$iframe.attr('src', $iframe.attr('src'));
-	}
-
-	$gridster.on( 'click', '.reloader', reload_iframe );
-
-	function close_widget(e) {
-		$widget = $(this).parent();
-		gridster.remove_widget( $widget );
-	}
-
-	$gridster.on( 'click', '.remover', close_widget );
-
-	// Enable sumbitting new URL from urler form just by Entery key
-	function urlerinput_enter(e) {
-		var code = e.keyCode || e.which;
-		if(code == 13) { //Enter keycode
-			$button = $(this).parent().find(".urlerbutton");
-			$button.click();
-		}
-	}
-
-	$gridster.on( 'keypress', '.urlerinput', urlerinput_enter );
-
-	// Create new widget
-	function add_panel(p_content, p_title, p_width, p_height, p_maximized_height, p_col, p_row, p_minimized, p_scrolling) {
-		// Handle default values
-		p_minimized = typeof p_minimized !== 'undefined' ? p_minimized : 'false';
-		p_width = typeof p_width !== 'undefined' ? p_width : 3;
-		p_height = typeof p_height !== 'undefined' ? p_height : 2;
-		p_maximized_height = typeof p_maximized_height !== 'undefined' ? p_maximized_height : p_height;
-		p_scrolling = typeof p_scrolling !== 'undefined' ? p_scrolling : 'no';
-
-		element_code = '<li title="'+p_title+
-				'" maximized-sizey="'+p_maximized_height+
-				'" minimized="'+p_minimized+
-				'" class="widget" />';
-
-		// Let the gridster chose the position if not defined
-		if (typeof p_col == 'undefined' || typeof p_row == 'undefined') {
-			new_widget = gridster.add_widget(element_code, p_width, p_height);
-		} else {
-			new_widget = gridster.add_widget(element_code, p_width, p_height, p_col, p_row);
-		}
-
-		new_widget.append("<div class=\"titlebar_item remover\"     title=\"Close this widget\"   ></div>");
-		new_widget.append("<div class=\"titlebar_item scroll_lock\" title=\"Show/hide scrollbars\"></div>");
-		new_widget.append("<div class=\"titlebar_item reloader\"    title=\"Reload the content\"  ></div>");
-		new_widget.append("<div class=\"titlebar_item urler\"       title=\"Show/change the URL of this widget\"></div>");
-		new_widget.append("<div class=\"              urler_form\"><input class=\"urlerinput\"></input><input class=\"urlerbutton\" value=\"Change\" type=\"button\"></input></div>");
-		if (p_minimized == "true") {
-		    new_widget.append("<div class=\"titlebar_item minimizer max\"   title=\"Restore height\"></div>");
-		} else {
-		    new_widget.append("<div class=\"titlebar_item minimizer min\"   title=\"Minimize up to hight 1\"></div>");
-		}
-		new_widget.append("<div class=\"title\">"+p_title+"</div>");
-		// div.iframe_cover is used to cover the iframe so that mouse events are not stolen by the iframe
-		new_widget.append("<div class=\"iframe_cover\">&nbsp;</div>");
-		new_widget.append("<div class=\"widget_content\"><iframe scrolling=\""+p_scrolling+"\" src=\""+p_content+"\"></iframe></div>");
-
-		// Iframe mouse-events handling has to be set according to the settings
-		update_iframe_cover();
-
-	}
 
 	function save_positions() {
-	    $('.saving').fadeIn( function(){
-			var serialized_array = gridster.serialize();
+		$('.saving').fadeIn( function(){
+			var serialized_array = dashboard.gridster.serialize();
 			serialized_string = "serialization = "+JSON.stringify(serialized_array)+";";
 			$.get("{{ save_url }}", {serialization: serialized_string}, function(data){
 				$('.saving').fadeOut(function(){
@@ -246,17 +131,25 @@ $(function(){
 			})
 		});
 	}
+
 	$('#btn_save').click( save_positions );
+
+    // Handle toggling settings panel
+	$("#settings_toggler").click(function(){
+		if ( $( "#settings" ).is( ":hidden" ) ) {
+			$( "#settings" ).slideDown();
+		} else {
+			$( "#settings" ).slideUp();
+		}
+	});
 
 	// Add new widget according to the form
 	$("#content_submit").click(function(){  
-		add_panel($("#content_input").val(), $("#title_input").val());
-	});
-
-	// Serialize button to show gridster serialized string
-	$("#btn_serialize").click(function(){
-		var pole = gridster.serialize();
-		alert("serialization = "+JSON.stringify(pole)+";");
+		var url = $("#content_input").val();
+		var title = $("#title_input").val();
+		dashboard.add({'url': url, 'title': title});
+		// Iframe mouse-events handling has to be set according to the settings
+		update_iframe_cover();
 	});
 
 	// Add widget when pressing Enter key in the input textbox
@@ -275,21 +168,6 @@ $(function(){
 
 	// bind function to iframe_cover checkbox change event
 	$('#iframe-cover-switch').change(update_iframe_cover);
-
-	// fill gridster element with widgets defined in serialization
-	gridster.remove_all_widgets();
-	$.each(serialization, function(index,item) {
-		add_panel(item.content, item.title, item.size_x, item.size_y, item.maximized_sizey, item.col, item.row, item.minimized, item.scrolling);
-	});
-
-    // Handle toggling settings panel
-	$("#settings_toggler").click(function(){
-		if ( $( "#settings" ).is( ":hidden" ) ) {
-			$( "#settings" ).slideDown();
-		} else {
-			$( "#settings" ).slideUp();
-		}
-	});
 
 	// ATTENTION!! The activation of iframe cover was hardcoded
 	// into gridster library!!!!
