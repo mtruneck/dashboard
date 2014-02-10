@@ -52,6 +52,12 @@ fn = DashboardWidget.prototype;
 // HTML Template for the widget
 fn.template = $("#widget_template").html();
 
+fn.update = function(params){
+	this.el.attr('title', params.title);
+	this.el.find('.title').html(params.title);
+	this.el.find('iframe').attr('src', params.content);
+};
+
 fn.close = function() {
 	this.gridster.remove_widget( this.el );
 };
@@ -90,6 +96,8 @@ fn.minimize = function(){
 };
 
 fn.toggle_urler = function(){
+		dashboard.invokeWidgetSettingsDialog(this);
+		/*
 	$widget = this.el;
 	$urler_input = $widget.find(".urlerinput");
 	$iframe = $widget.find("iframe");
@@ -97,6 +105,7 @@ fn.toggle_urler = function(){
 
 	$urler_input.val( $iframe.attr("src") );
 	$urler_form.toggle();
+	*/
 };
 
 fn.change_url = function(){
@@ -154,6 +163,56 @@ fn.init = function(){
 fn.add = function(widget_params){
     widget = new DashboardWidget(this.gridster, widget_params);
 	return widget;
+};
+
+fn.invokeWidgetSettingsDialog = function(widget){
+
+	template = $("#widget_settings").html();
+	dashboard = this;
+
+	if (widget === null) {
+		values = {title: '', url: ''};
+		dialog_title = "Create new widget";
+		apply_dialog = function(params){
+			dashboard.add(params);
+		};
+	} else {
+		values = {title: widget.el.attr('title'), url: widget.el.find('iframe').attr('src')};
+		dialog_title = "Widget settings";
+		apply_dialog = function(params){
+			widget.update(params);
+		};
+	}
+
+	dialog_code = _.template(template,values);
+
+	$(dialog_code).dialog({title: dialog_title,
+		width: 300,
+		modal: true,
+		position: { my: "top", at: "top+200px", of: window },
+		buttons: {
+			"OK": function(){
+				params = {
+					content: $('#settings-url').val(),
+					title: $('#settings-title').val(),
+				};
+				apply_dialog(params);
+				$( this ).dialog( "destroy" );
+			},
+			"Cancel": function(){
+				$( this ).dialog( "destroy" );
+			}
+		},
+	});
+
+	// Bind Enter key to OK button
+	$('#settings-dialog').on('keypress', function(e){
+		if (e.which == 13 || e.keyCode == 13) {
+			$('.ui-button:contains("OK")').click()
+		}
+	});
+
+
 };
 
 

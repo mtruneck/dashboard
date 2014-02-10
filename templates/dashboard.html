@@ -17,9 +17,9 @@
     <div class="page_title"><b>DASHBOARD</b></div>
 
     <div class="right_containter">
-        <label class="hand bold" for="iframe-cover-switch" title="Allows dragging a widget by its content, iframe won't steal the mouse events.">Re-arranging mode:</label>
+        <label class="hand" for="iframe-cover-switch" title="Allows dragging a widget by its content, iframe won't steal the mouse events.">Re-arranging mode:</label>
         <input id="iframe-cover-switch" name="iframe-cover-switch" class="check hand" type="checkbox" value="1">
-        <label for="iframe-cover-switch" class="icon hand"></label>
+        <label for="iframe-cover-switch" title="Allows dragging a widget by its content, iframe won't steal the mouse events." class="icon hand"></label>
         &nbsp; &nbsp; | &nbsp; &nbsp; 
         <input type="button" id="btn_save" value="Save the dashboard"></input>
         <span class="saving">Saving...</span>
@@ -27,17 +27,7 @@
         &nbsp; &nbsp; | &nbsp; &nbsp; 
         <!-- <input type="button" value="Show serialized settings" id="btn_serialize"></input>
         &nbsp; &nbsp; | &nbsp; &nbsp; -->
-        <span id="settings_toggler">▼ Add new widget ▼</span>
-    </div>
-
-    <div class="settings" id="settings" style="text-align: right;">
-        <div>
-        Title: <input id="title_input"    size="45"></input>
-        <br>
-        URL:   <input id="content_input"  size="45"></input>
-        <br>
-        <input type="button" id="content_submit" value="Add new widget"></input>
-        </div>
+        <input type="button" id="add_widget" value="Add new widget"></input>
     </div>
 
     <div style="clear: both;"></div>
@@ -59,6 +49,14 @@
 ...or you can change the name in the page URL.
 </div>
 {% endif %}
+
+<script type="text/x-underscore" id="widget_settings">
+<div id="settings-dialog">
+	<label for="settings-title">Title:</label><input type="text" name="settings-title" value="<%= title %>" id="settings-title">
+	<br>
+	<label for="settings-url">URL:</label><input type="text" name="settings-url" value="<%= url %>" id="settings-url">
+</div>
+</script>
 
 <!-- Underscore.js style template for a widget -->
 <script type="text/x-underscore" id="widget_template">
@@ -96,6 +94,7 @@
 
 $(function(){
 
+
 	// Set behaviour of iframe_cover according to the settings
 	function update_iframe_cover(){
 		if ( $('#iframe-cover-switch').is(':checked') ){
@@ -119,7 +118,6 @@ $(function(){
 	});
 	update_iframe_cover();
 
-
 	function save_positions() {
 		$('.saving').fadeIn( function(){
 			var serialized_array = dashboard.gridster.serialize();
@@ -134,13 +132,8 @@ $(function(){
 
 	$('#btn_save').click( save_positions );
 
-    // Handle toggling settings panel
-	$("#settings_toggler").click(function(){
-		if ( $( "#settings" ).is( ":hidden" ) ) {
-			$( "#settings" ).slideDown();
-		} else {
-			$( "#settings" ).slideUp();
-		}
+	$("#add_widget").click(function(){
+		dashboard.invokeWidgetSettingsDialog(null);
 	});
 
 	// Add new widget according to the form

@@ -3,8 +3,8 @@
 *    { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 body {
-    -webkit-font-smoothing: antialiased;
-    margin: 0px;
+	-webkit-font-smoothing: antialiased;
+	margin: 0px;
 }
 
 .header {
@@ -28,26 +28,8 @@ body {
 	display: none;
 }
 
-.header .settings div{
-	float: right;
-	padding: 20px 10px 10px 10px;
-}
-
-.header .settings {
-	display: none;
-	clear: both;
-}
-
 .header .right_containter {
 	float: right;
-}
-.header #settings_toggler {
-	text-align: center;
-	z-index: 0;
-	cursor: pointer;
-	height: 25px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 
@@ -70,38 +52,38 @@ input#iframe-cover-switch:checked:hover + label
 
 /* The whole gridster element */
 .gridster {
-    width: 100%;
-    height: 1500px;
-    margin: 0 auto;
-    padding: 10px;
+	width: 100%;
+	height: 1500px;
+	margin: 0 auto;
+	padding: 10px;
 }
 
 
 .gridster .gs-w {
-    cursor: pointer;
-    //-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	cursor: pointer;
+	//-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 .gridster .preview-holder {
-    border: none!important;
-    list-style: none;
-    border-radius: 0!important;
+	border: none!important;
+	list-style: none;
+	border-radius: 0!important;
 }
 
 
 .gridster .player {
-    -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
 }
 
 
 
 /* Widget element */
 .gridster .gs-w {
-    padding: 1px;
-    padding-top: 22px;
-    list-style: none;
+	padding: 1px;
+	padding-top: 22px;
+	list-style: none;
 }
 
 /* For resize-handles to be on top of .iframe_cover */
@@ -175,6 +157,19 @@ input#iframe-cover-switch:checked:hover + label
 
 /* Remove closing button from the dialog */
 .ui-dialog-titlebar-close {display: none; }
+/* Style of the dialog */
+.ui-dialog-buttonpane button {
+	margin: 5px;
+}
+.ui-dialog-buttonpane  {
+	padding: 0px;
+}
+#settings-dialog label {
+	display: inline-block;
+	width:50px;
+	text-align: right;
+	margin: 10px 5px 0 0;
+}
 
 /* Style of the "new dashboard" dialog */
 #dialog_new_dashboard {
@@ -191,21 +186,22 @@ input#iframe-cover-switch:checked:hover + label
 .bold {
 	font-weight: bold;
 }
+.nomargin {
+	margin: 0px;
+}
 
 /* font-sizes */
-body             { font-size: normal; }
+body             { font-size: small; }
 .header .page_title
                  { font-size: large;}
-.header #settings_toggler 
-                 { font-size: large;}
-.ui-dialog-title { font-size: medium;}
+.ui-dialog-titlebar { font-size: small;}
 .widget .title   { font-size: small;}
 
 
 
 /* Other font customizations */
 .widget .title { 
-        text-transform: uppercase;
+	text-transform: uppercase;
 	border-bottom: 1px solid black;
 	font-weight: bold;
 }
@@ -228,9 +224,6 @@ body {
 	border-bottom: 1px solid black;
 	/* background-image: url(paper_bg.jpg); */
 	background-color: #d1d1d1;
-}
-.header #settings_toggler:hover {
-	background-color: #eee;
 }
 .grid {
 	//border: 1px solid #dddddd;
