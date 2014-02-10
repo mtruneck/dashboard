@@ -41,8 +41,6 @@ function DashboardWidget(gridster, widget_params){
 	this.el.on( 'click', '.scroll_lock', _.bind(this.toggle_scrollbars, this) );
 	this.el.on( 'click', '.minimizer',   _.bind(this.minimize,          this) );
 	this.el.on( 'click', '.reloader',    _.bind(this.reload,            this) );
-	this.el.on( 'click', '.urler',       _.bind(this.toggle_urler,      this) );
-    this.el.on( 'click', '.urlerbutton', _.bind(this.change_url,        this) );
 
 	return this;
 }
@@ -94,31 +92,6 @@ fn.minimize = function(){
 		$widget.attr('minimized', 'false');
 	}
 };
-
-fn.toggle_urler = function(){
-		dashboard.invokeWidgetSettingsDialog(this);
-		/*
-	$widget = this.el;
-	$urler_input = $widget.find(".urlerinput");
-	$iframe = $widget.find("iframe");
-	$urler_form = $widget.find(".urler_form");
-
-	$urler_input.val( $iframe.attr("src") );
-	$urler_form.toggle();
-	*/
-};
-
-fn.change_url = function(){
-	$widget = this.el;
-	$iframe = $widget.find("iframe");
-	$urler_form = $widget.find(".urler_form");
-	$urler_input = $widget.find(".urlerinput");
-
-	$iframe.attr('src', $urler_input.val());
-	$urler_form.toggle();
-};
-
-
 
 
 
