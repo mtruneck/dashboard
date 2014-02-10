@@ -23,6 +23,8 @@
         <input id="iframe-cover-switch" name="iframe-cover-switch" class="check hand" type="checkbox" value="1">
         <label for="iframe-cover-switch" title="Allows dragging a widget by its content, iframe won't steal the mouse events." class="icon hand"></label>
         &nbsp; &nbsp; | &nbsp; &nbsp; 
+        <input type="button" id="btn_hide_titlebars" value="Show/Hide titlebars"></input>
+        &nbsp; &nbsp; | &nbsp; &nbsp; 
         <input type="button" id="btn_save" value="Save the dashboard"></input>
         <span class="saving">Saving...</span>
         <span class="saved">Saved</span>
@@ -79,14 +81,16 @@
     <li class="widget" minimized="<%= minimized %>" 
                        maximized-sizey="<%= maximized_sizey %>" 
                        title="<%= title %>">
-        <div class="title"><%= title %></div>
+        <span class="titlebar">
+            <div class="title"><%= title %></div>
 
-        <div class="titlebar_item remover"     title="Close this widget"></div>
-        <div class="titlebar_item scroll_lock" title="Show/hide scrollbars"></div>
-        <div class="titlebar_item reloader"    title="Reload the content"></div>
-        <div class="titlebar_item minimizer <%= minimizer_class %>" 
-                                               title="<%= minimizer_title %>"></div>
-        <div class="titlebar_item urler"       title="Show/change the URL of this widget"></div>
+            <div class="titlebar_item remover"     title="Close this widget"></div>
+            <div class="titlebar_item scroll_lock" title="Show/hide scrollbars"></div>
+            <div class="titlebar_item reloader"    title="Reload the content"></div>
+            <div class="titlebar_item minimizer <%= minimizer_class %>" 
+                                                   title="<%= minimizer_title %>"></div>
+            <div class="titlebar_item urler"       title="Show/change the URL of this widget"></div>
+        </span>
         <div class="widget_content">
             <div class="iframe_cover"></div>
             <iframe scrolling="<%= scrolling %>" src="<%= content %>"></iframe>
@@ -142,6 +146,19 @@ $(function(){
 	}
 
 	$('#btn_save').click( save_positions );
+
+	$('#btn_hide_titlebars').click( function(){
+		hidden = $('#btn_hide_titlebars').data('hidden');
+		if (hidden != "true") {
+			$('.titlebar').hide();
+			$('.widget').css('padding-top', '1px');
+			$('#btn_hide_titlebars').data('hidden', "true");
+		} else {
+			$('.titlebar').show();
+			$('.widget').css('padding-top', '22px');
+			$('#btn_hide_titlebars').data('hidden', "false");
+		}
+	});
 
 	$("#add_widget").click(function(){
 		dashboard.invokeWidgetSettingsDialog(null);

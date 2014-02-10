@@ -80,7 +80,7 @@ input#iframe-cover-switch:checked:hover + label
 
 
 /* Widget element */
-.gridster .gs-w {
+.widget {
 	padding: 1px;
 	padding-top: 22px;
 	list-style: none;
