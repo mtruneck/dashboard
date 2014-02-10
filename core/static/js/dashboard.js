@@ -5,12 +5,13 @@ function DashboardWidget(gridster, widget_params){
 
 	// Handle default values
     function handle_default(variable, default_value){
-		if (variable !== 'undefined') {
+		if (typeof variable !== 'undefined') {
 			return variable;
 		} else {
 			return default_value;
 		}
     }
+	p.refresh   = handle_default(p.refresh,'disabled');
 	p.content   = handle_default(p.content,'');
 	p.minimized = handle_default(p.minimized, 'false');
 	p.size_x    = handle_default(p.size_x, 3);
@@ -37,10 +38,16 @@ function DashboardWidget(gridster, widget_params){
 		this.el = gridster.add_widget(element_code, p.size_x, p.size_y, p.col, p.row);
 	}
 
+	this.el.data('refresh-interval', p.refresh);
+	this.el.data('refresh-count', '1');
+
 	this.el.on( 'click', '.remover',     _.bind(this.close,             this) );
 	this.el.on( 'click', '.scroll_lock', _.bind(this.toggle_scrollbars, this) );
 	this.el.on( 'click', '.minimizer',   _.bind(this.minimize,          this) );
 	this.el.on( 'click', '.reloader',    _.bind(this.reload,            this) );
+	this.el.on( 'click', '.urler',       _.bind(this.toggle_urler,      this) );
+
+	this.start_refresh_polling();
 
 	return this;
 }
@@ -51,10 +58,30 @@ fn = DashboardWidget.prototype;
 fn.template = $("#widget_template").html();
 
 fn.update = function(params){
+	this.el.data('refresh-interval', params.refresh);
+	this.el.data('refresh-count', '1');
 	this.el.attr('title', params.title);
 	this.el.find('.title').html(params.title);
 	this.el.find('iframe').attr('src', params.content);
 };
+
+fn.start_refresh_polling = function(){
+	interval = parseInt(this.el.data('refresh-interval'));
+	count = parseInt(this.el.data('refresh-count'));
+
+	// End the loop if the widget was closed
+	if (isNaN(count)) return;
+
+	console.log(count + "  " + interval);
+	if (! isNaN(interval) && count >= interval) {
+		this.reload();
+		this.el.data('refresh-count', 1);
+	} else {
+		count++;
+		this.el.data('refresh-count', count);
+	}
+	setTimeout($.proxy(this.start_refresh_polling, this), 60000);
+}
 
 fn.close = function() {
 	this.gridster.remove_widget( this.el );
@@ -93,6 +120,10 @@ fn.minimize = function(){
 	}
 };
 
+fn.toggle_urler = function(){
+	dashboard.invokeWidgetSettingsDialog(this);
+};
+
 
 
 
@@ -118,6 +149,7 @@ fn.init = function(){
 		resize: { enabled: true },
 		serialize_params: function($w, wgd) { 
 			return { 
+				refresh: $($w).data('refresh-interval'),
 				content: $($w).find('iframe').attr('src'),
 				scrolling: $($w).find('iframe').attr('scrolling'),
 				title: $($w).attr('title'), 
@@ -145,13 +177,15 @@ fn.invokeWidgetSettingsDialog = function(widget){
 	dashboard = this;
 
 	if (widget === null) {
-		values = {title: '', url: ''};
+		values = {title: '', url: '', refresh: 'disabled'};
 		dialog_title = "Create new widget";
 		apply_dialog = function(params){
 			dashboard.add(params);
 		};
 	} else {
-		values = {title: widget.el.attr('title'), url: widget.el.find('iframe').attr('src')};
+		values = {title: widget.el.attr('title'), 
+				  url: widget.el.find('iframe').attr('src'),
+				  refresh: widget.el.data('refresh-interval')};
 		dialog_title = "Widget settings";
 		apply_dialog = function(params){
 			widget.update(params);
@@ -161,7 +195,7 @@ fn.invokeWidgetSettingsDialog = function(widget){
 	dialog_code = _.template(template,values);
 
 	$(dialog_code).dialog({title: dialog_title,
-		width: 300,
+		width: 350,
 		modal: true,
 		position: { my: "top", at: "top+200px", of: window },
 		buttons: {
@@ -169,6 +203,7 @@ fn.invokeWidgetSettingsDialog = function(widget){
 				params = {
 					content: $('#settings-url').val(),
 					title: $('#settings-title').val(),
+					refresh: $('#settings-refresh').val(),
 				};
 				apply_dialog(params);
 				$( this ).dialog( "destroy" );
