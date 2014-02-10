@@ -138,6 +138,7 @@ fn.add = function(widget_params){
 	return widget;
 };
 
+/* If null is passed, use the dialog to create new widget */
 fn.invokeWidgetSettingsDialog = function(widget){
 
 	template = $("#widget_settings").html();
