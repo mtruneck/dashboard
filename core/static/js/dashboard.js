@@ -11,6 +11,7 @@ function DashboardWidget(gridster, widget_params){
 			return default_value;
 		}
     }
+	p.title     = handle_default(p.title,'');
 	p.refresh   = handle_default(p.refresh,'disabled');
 	p.content   = handle_default(p.content,'');
 	p.minimized = handle_default(p.minimized, 'false');
