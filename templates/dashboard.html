@@ -167,13 +167,17 @@ $(function(){
 	// bind function to iframe_cover checkbox change event
 	$('#iframe-cover-switch').change(update_iframe_cover);
 
-	// ATTENTION!! The activation of iframe cover was hardcoded
-	// into gridster library!!!!
-	// This is its deactivation
-    $('.gridster').on('gridster:dragstart', 'ul', function(){
-        $(".iframe_cover").css('pointer-events', 'auto');
-    });
-    $('.gridster').on('gridster:dragstop', 'ul', function(){
+	// Activation of iframe covers
+	$('.gridster').on('gridster:resizestart', 'ul', function(){
+		$(".iframe_cover").css('pointer-events', 'auto');
+	});
+	$('.gridster').on('gridster:resizestop', 'ul', function(){
+		update_iframe_cover();
+	});
+	$('.gridster').on('gridster:dragstart', 'ul', function(){
+		$(".iframe_cover").css('pointer-events', 'auto');
+	});
+	$('.gridster').on('gridster:dragstop', 'ul', function(){
 		update_iframe_cover();
 	});
 
