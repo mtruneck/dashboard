@@ -147,18 +147,51 @@ $(function(){
 
 	$('#btn_save').click( save_positions );
 
+	// Handling hiding titlebars
+
+	// Functions to Show/Hide titlebars
+	function hide_titlebars(){
+			$('.titlebar').hide();
+			$('.widget').css('padding-top', '1px');
+	}
+	function show_titlebars(){
+			$('.titlebar').show();
+			$('.widget').css('padding-top', '22px');
+	}
+
+	// When titlebars are hidden, show them using Ctrl key
+	var ctrlPressed;
+	$(window).keydown(function(evt) {
+		if (evt.which == 17) { // ctrl
+		    hidden = $('#btn_hide_titlebars').data('hidden');
+			if (hidden == "true") {
+				show_titlebars();
+			}
+			ctrlPressed = true;
+		}
+	}).keyup(function(evt) {
+		if (evt.which == 17) { // ctrl
+		    hidden = $('#btn_hide_titlebars').data('hidden');
+			if (hidden == "true") {
+				hide_titlebars();
+			}
+			ctrlPressed = false;
+		}
+	});
+
+    // Show/Hide titlebars button
 	$('#btn_hide_titlebars').click( function(){
 		hidden = $('#btn_hide_titlebars').data('hidden');
 		if (hidden != "true") {
-			$('.titlebar').hide();
-			$('.widget').css('padding-top', '1px');
+			hide_titlebars();
 			$('#btn_hide_titlebars').data('hidden', "true");
 		} else {
-			$('.titlebar').show();
-			$('.widget').css('padding-top', '22px');
+			show_titlebars();
 			$('#btn_hide_titlebars').data('hidden', "false");
 		}
 	});
+
+
 
 	$("#add_widget").click(function(){
 		dashboard.invokeWidgetSettingsDialog(null);
