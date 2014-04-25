@@ -592,8 +592,6 @@
                 first = false;
                 self.on_dragstart.call(self, mme);
 
-		$(".iframe_cover").css('pointer-events', 'auto');
-
                 return false;
             }
 

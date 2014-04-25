@@ -160,6 +160,10 @@ Dashboard = (function(){
 					maximized_sizey: $($w).attr('maximized-sizey'),
 					col: wgd.col, 
 					row: wgd.row, 
+					max_size_x: 100,
+					min_cols: 100,
+					max_cols: 100,
+					max_size_y: 100,
 					size_x: wgd.size_x, 
 					size_y: wgd.size_y 
 				};
