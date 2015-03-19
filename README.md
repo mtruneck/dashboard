@@ -27,8 +27,3 @@ Just a few steps:
 
 Then your dashboard will be ready as dashboard-yournamespace.rhcloud.com
 
-
-Just trying checklists:
- - [ ] Neco
- - [ ] dalsi
- - [x] Hotovy
