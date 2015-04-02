@@ -27,3 +27,5 @@ Just a few steps:
 
 Then your dashboard will be ready as dashboard-yournamespace.rhcloud.com
 
+
+
